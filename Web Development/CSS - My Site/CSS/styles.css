@@ -5,6 +5,7 @@ body {
     margin-left: 0px;
     margin-right: 0px;
     text-align: center;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif
 }
 
 .top-container{
@@ -40,6 +41,5 @@ h1{
     position:absolute;
     right: 700px;
     top: 50px;
-
 }
 
