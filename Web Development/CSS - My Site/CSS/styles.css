@@ -4,10 +4,13 @@ body {
     margin-bottom: 0px;
     margin-left: 0px;
     margin-right: 0px;
+    text-align: center;
 }
 
 .top-container{
     background-color: #E4F9F5;
+    position: relative;
+    padding: 100px;
 }
 
 .middle-container{
@@ -27,3 +30,16 @@ h1{
    margin-top: 0px;
    margin-bottom: 0px; 
 }
+
+.bottom-cloud{
+    position: absolute;
+    left: 700px;
+    bottom: 400px;
+}
+.top-cloud{
+    position:absolute;
+    right: 700px;
+    top: 50px;
+
+}
+
