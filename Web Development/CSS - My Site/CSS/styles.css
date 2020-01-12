@@ -24,12 +24,17 @@ h1{
    margin: 50px auto 0 auto;
    font-family: 'Sacramento', cursive;
    font-size: 5.625rem; /* or 5.625em also, 100% = 16px = 1em */
+   color: #66BFBF;
+   line-height: 2rem;
 }
 
 h2{
     
     font-family: 'Montserrat', sans-serif;
     font-size: 2.5rem;
+    color: #66BFBF;
+    font-weight: normal;
+    line-height: 2rem;
 }
 
 h3{
