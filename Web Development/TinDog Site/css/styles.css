@@ -143,4 +143,51 @@ h3{
     padding: 2.5%;
 }
 
+/* Call to action Section */
+#cta{
+    background-color: #ff4c68;
+    text-align: center;
+    padding-top: 7%;
+    padding-bottom: 7%;
+    color: #fff;
+}
+.cta-title{
+    font-size: 3rem;
+    line-height: 1.5;
+    margin-bottom: 4rem;
+}
+.cta-btn{
+    margin-top: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+/* Footer section */
+#footer{
+
+    padding-top: 2%;
+    text-align: center;
+    background-color: #fff;
+}
+
+.cta-icon{
+    color: #8f8f8f;
+    margin-right: 1rem;
+    margin-bottom: 3rem;
+}
+
+.footer-prgf{
+    margin-top: 1rem;
+}
+
+@media(max-width: 1028px){
+
+    #title{
+        text-align: center;
+    }
+    .title-image{
+        position: static;
+        transform: rotate(0);
+    }
+}
 
