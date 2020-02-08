@@ -23,20 +23,26 @@ app.post("/", function(req, res){
         {
             let data = JSON.parse(body);
             let keys= Object.keys(data[0]);
+            let lastUpdate = new Date(data[0].last_updated*1000);
+            
+            res.write(`<p> Last update at ${lastUpdate.getHours()}: ${lastUpdate.getMinutes()} UTC</p>`)
+
             if (fiat==="USD")
             {
-                apiResponse=`The current value of 1 ${crypto.toUpperCase()} equals ${data[0][keys[4]]} ${fiat.toUpperCase()}`
+                apiResponse=`<h1>The current value of 1 ${crypto.toUpperCase()} equals ${data[0][keys[4]]} ${fiat.toUpperCase()}</h1>`
             }
             else
             {
-                apiResponse=`The current value of 1 ${crypto.toUpperCase()} equals ${data[0][keys[15]]} ${fiat.toUpperCase()}`
+                apiResponse=`<h1>The current value of 1 ${crypto.toUpperCase()} equals ${data[0][keys[15]]} ${fiat.toUpperCase()}</h1>`
             }
             
         }
         else {
             apiResponse=`The requested data is currently not available`;
         }
-        res.send(apiResponse);
+
+        res.write(apiResponse);
+        res.send();
     ;})
 });
 
