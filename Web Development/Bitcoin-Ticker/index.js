@@ -13,9 +13,17 @@ app.get("/", function(req, res){
 app.post("/", function(req, res){
     let crypto =req.body.crypto;
     let fiat = req.body.fiat;
-    let url = `https://api.alternative.me/v1/ticker/${crypto}/?convert=${fiat}`
-
-    request(url, function(error, response, body){
+    let amount=Number(req.body.amount);
+    
+    let options={
+        url: `https://api.alternative.me/v1/ticker/${crypto}`,
+        method:"GET",
+        qs:{
+            convert: fiat
+        }
+    }
+    
+    request(options, function(error, response, body){
         
         let apiResponse='';
         
@@ -25,15 +33,15 @@ app.post("/", function(req, res){
             let keys= Object.keys(data[0]);
             let lastUpdate = new Date(data[0].last_updated*1000);
             
-            res.write(`<p> Last update at ${lastUpdate.getHours()}: ${lastUpdate.getMinutes()} UTC</p>`)
+            res.write(`<p> Last update at ${lastUpdate.getHours()}: ${lastUpdate.getMinutes()} UTC</p>`);
 
             if (fiat==="USD")
             {
-                apiResponse=`<h1>The current value of 1 ${crypto.toUpperCase()} equals ${data[0][keys[4]]} ${fiat.toUpperCase()}</h1>`
+                apiResponse=`<h1>The current value of ${amount} ${crypto.toUpperCase()} equals ${Number(data[0][keys[4]]) * amount} ${fiat.toUpperCase()}</h1>`
             }
             else
             {
-                apiResponse=`<h1>The current value of 1 ${crypto.toUpperCase()} equals ${data[0][keys[15]]} ${fiat.toUpperCase()}</h1>`
+                apiResponse=`<h1>The current value of ${amount} ${crypto.toUpperCase()} equals ${Number(data[0][keys[15]]) * amount} ${fiat.toUpperCase()}</h1>`
             }
             
         }
