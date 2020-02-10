@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 
 //MAIL Chimp API Key
-// 57b114f076cbfaa65b1d3fec4339b8c1-us4
+
 
 // MAIL Chimp Unique ID
 //8573918afa
@@ -27,6 +27,8 @@ app.post('/', (req, res)=>{
     let firstName=req.body.firstName;
     let lastName=req.body.lastName;
     let email=req.body.email;
+    let requestError;
+    let requestStatus=0;
 
     let data={
         members:[
@@ -47,24 +49,27 @@ app.post('/', (req, res)=>{
         url:"https://us4.api.mailchimp.com/3.0/lists/8573918afa",
         method: "POST",
         headers:{
-            "Authorization": "XenderMD 57b114f076cbfaa65b1d3fec4339b8c1-us4"
+            "Authorization": "XenderMD <API Key here>"
         },
         body:jasonData
     };
 
     request(options, function(error, response, body){
-        if(error){
-            console.log(response.statusCode);
-            console.log(error);
-            //res.send("Subscription not successul - error on the server !");
-        }
-        else{
-           //res.send("Subscription successul !");
-        }
         console.log(response.statusCode);
+      
+        if(error){
+            res.sendFile(__dirname + "/failure.html");
+        }
+        else if(response.statusCode===200){
+           res.sendFile(__dirname + "/success.html");
+        } else{
+            res.sendFile(__dirname + "/failure.html");
+        }
     });
+})
 
-    res.send("Subscription successul !");
+app.post("/failure", function(req, res){
+   res.redirect("/");
 })
 
 app.listen(3000, ()=>{
