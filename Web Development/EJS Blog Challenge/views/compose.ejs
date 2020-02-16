@@ -4,8 +4,19 @@
 <h1>Compose</h1>
 
 <form action="/compose" method="POST">
-    <input type="text" name="content">
-    <button type="submit" name="button">Publish</button>
+
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="Text" class="form-control" id="title" name="postTitle" placeholder="title">
+    </div>
+
+    <div class="form-group">
+        <label for="textArea">Content</label>
+        <textarea class="form-control" id="textArea" name="postContent" rows="6"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Publish</button>
+
 </form>
 
 <%-include('partials/footer')-%>
