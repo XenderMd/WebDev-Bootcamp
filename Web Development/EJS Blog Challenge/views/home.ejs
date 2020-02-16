@@ -5,6 +5,9 @@
 
 <p><%=startingContent%></p>
 
-<%blogPosts.forEach((item, index)=>{console.log(item);});%>
+<% blogPosts.forEach((item, index)=>{ %>
+    <h2><%=item.title %></h2>
+    <p><%=item.content %></p>
+    <%});%>
 
 <%-include('partials/footer')-%>
