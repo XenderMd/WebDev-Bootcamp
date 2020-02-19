@@ -37,6 +37,11 @@ app.get("/compose", (req,res)=>{
   res.render("compose");
 })
 
+app.get("/posts/:postID", (req, res)=>{
+  console.log(req.params.postID);
+  res.redirect("/");
+})
+
 app.post("/compose", (req, res)=>{
   const post = {
     title: req.body.postTitle,
