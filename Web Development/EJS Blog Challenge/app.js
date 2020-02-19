@@ -41,13 +41,20 @@ app.get("/compose", (req,res)=>{
 app.get("/posts/:title", (req, res)=>{
   
   const requestedTitle = _.lowerCase(req.params.title); 
+  const foundBlog= posts.find(element=>_.lowerCase(element.title)===requestedTitle);
 
-  if(posts.find(element=>_.lowerCase(element.title)===requestedTitle))
+  if(foundBlog)
   {
-    console.log("Match Found !");
+    res.render("post", {
+      title: foundBlog.title,
+      content: foundBlog.content
+    });
+  }
+  else{
+    res.redirect("/");
   }
 
-  res.redirect("/");
+  
 })
 
 app.post("/compose", (req, res)=>{
