@@ -43,8 +43,6 @@ app.get("/", (req, res)=>{
       }
   });
 
-  console.log(trimmedPosts);
-
   res.render("home", {
     startingContent:homeStartingContent,
     blogPosts:trimmedPosts
