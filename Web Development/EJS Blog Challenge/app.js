@@ -17,12 +17,35 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+function trimContent(limit, content){
+  
+  let trimmedContent ='';
+
+  if (content.length>=limit)
+  {
+    trimmedContent=content.substring(0,100)+"..."
+  }
+  else{
+    trimmedContent=content+"...";
+  }
+
+  return trimmedContent;
+}
 
 
 app.get("/", (req, res)=>{
+  
+  let trimmedPosts=[];
+  posts.forEach((item, index)=>{
+     trimmedPosts[index]={
+      title: item.title,
+      content: trimContent(100, item.content)
+      }
+  });
+
   res.render("home", {
     startingContent:homeStartingContent,
-    blogPosts:posts
+    blogPosts:trimmedPosts
   });
 })
 
@@ -42,7 +65,6 @@ app.get("/posts/:title", (req, res)=>{
   
   const requestedTitle = _.lowerCase(req.params.title); 
   const foundBlog= posts.find(element=>_.lowerCase(element.title)===requestedTitle);
-
   if(foundBlog)
   {
     res.render("post", {
@@ -53,8 +75,6 @@ app.get("/posts/:title", (req, res)=>{
   else{
     res.redirect("/");
   }
-
-  
 })
 
 app.post("/compose", (req, res)=>{
