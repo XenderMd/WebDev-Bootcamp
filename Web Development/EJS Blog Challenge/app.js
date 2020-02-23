@@ -43,6 +43,8 @@ app.get("/", (req, res)=>{
       }
   });
 
+  console.log(trimmedPosts);
+
   res.render("home", {
     startingContent:homeStartingContent,
     blogPosts:trimmedPosts
@@ -85,17 +87,6 @@ app.post("/compose", (req, res)=>{
   posts.push(post);
   res.redirect("/");
 })
-
-
-
-
-
-
-
-
-
-
-
 
 
 app.listen(3000, function() {

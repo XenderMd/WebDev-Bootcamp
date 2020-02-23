@@ -7,7 +7,7 @@
 
 <% blogPosts.forEach((item, index)=>{ %>
     <h2><%=item.title %></h2>
-    <p><%=item.content %></p>
+    <p><%=item.content %>  <a href="/posts/<%=item.title%>" >Read more</a> </p>
     <%});%>
 
 <%-include('partials/footer')-%>
