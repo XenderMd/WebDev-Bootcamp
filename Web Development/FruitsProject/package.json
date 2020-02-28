@@ -1,0 +1,14 @@
+{
+  "name": "fruitsproject",
+  "version": "1.0.0",
+  "description": "MongoDB test project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Denis Stavila",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^3.5.4"
+  }
+}
