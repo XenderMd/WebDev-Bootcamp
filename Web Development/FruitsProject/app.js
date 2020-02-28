@@ -35,25 +35,51 @@ const fruit = new Fruit({
     rating:34,
     review:"The best fruit there is !"
 });
+//fruit.save();
 
-fruit.save();
+// Fruit.find(function(err, fruits){
+//     if (err){
+//         console.log(err);
+//     }
+//     else{
+//         fruits.forEach((item, index)=>{
+//             console.log(item.name);
+//         });
+//     }
+//     mongoose.connection.close();
+// })
 
+// Fruit.updateOne({_id:"5e5911eecacfe12d006370a6"}, {rating:10}, function(err){
+//     if(err)
+//     {
+//         console.log(err);
+//     }
+//     else {
+//         console.log("Update successful");
+//     }
+//     mongoose.connection.close();
+// });
 
-Fruit.find(function(err, fruits){
-    if (err){
+// Fruit.deleteOne({name:"Apple"}, function(err){
+//     if(err){
+//         console.log(err);
+//     }
+//     else{
+//         console.log("Item succesfully deleted !");
+//     };
+//     mongoose.connection.close();
+// })
+
+Person.deleteOne({name:"John"}, function(err){
+    if(err){
         console.log(err);
     }
     else{
-        fruits.forEach((item, index)=>{
-            console.log(item.name);
-        });
-    }
+        console.log("Item succesfully deleted !");
+    };
     mongoose.connection.close();
 })
 
-
-//fruit.save();
-//person.save();
 
 
 const InsertDocuments = function (collection){
