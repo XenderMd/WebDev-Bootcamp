@@ -21,7 +21,8 @@ const fruitSchema = new mongoose.Schema({
 
 const personSchema = new mongoose.Schema({
     name: String,
-    age:Number
+    age:Number,
+    favouriteFruit: fruitSchema
 });
 
 //Specify a model or collection I guess
@@ -30,12 +31,33 @@ const Person = mongoose.model("Person", personSchema);
 
 
 // Insert Fruits
+// const fruit = new Fruit({
+//     name:"Peach",
+//     rating:34,
+//     review:"The best fruit there is !"
+// });
+
 const fruit = new Fruit({
-    //name:"Peach",
-    rating:34,
-    review:"The best fruit there is !"
+    name:"Lemon",
+    rating:9,
+    review:"Super sour fruit!"
 });
+
+fruit.save();
+
+const person = new Person ({
+    name: "John",
+    age:37,
+    favouriteFruit: fruit
+})
+
+person.save();
+
+//mongoose.connection.close();
+
+
 //fruit.save();
+
 
 // Fruit.find(function(err, fruits){
 //     if (err){
@@ -70,49 +92,49 @@ const fruit = new Fruit({
 //     mongoose.connection.close();
 // })
 
-Person.deleteOne({name:"John"}, function(err){
-    if(err){
-        console.log(err);
-    }
-    else{
-        console.log("Item succesfully deleted !");
-    };
-    mongoose.connection.close();
-})
+// Person.deleteOne({name:"John"}, function(err){
+//     if(err){
+//         console.log(err);
+//     }
+//     else{
+//         console.log("Item succesfully deleted !");
+//     };
+//     mongoose.connection.close();
+// })
 
 
 
-const InsertDocuments = function (collection){
-       // Insert multiple documents
-       collection.insertMany([
-        {
-            name:"Apple",
-            score:8,
-            review: "Great Fruit !!"
-        },
-        {
-            name:"Orange",
-            score:6,
-            review:"Kinda sour :/"
-        },
-        {
-            name:"Banana",
-            score:9,
-            review:"Great Stuff"
-        }
-        ], function(err, r) {
-        assert.equal(null, err);
-        assert.equal(3, r.insertedCount);
-        console.log("Inserted 3 documents into the collection");
-        client.close();
-      });
-};
+// const InsertDocuments = function (collection){
+//        // Insert multiple documents
+//        collection.insertMany([
+//         {
+//             name:"Apple",
+//             score:8,
+//             review: "Great Fruit !!"
+//         },
+//         {
+//             name:"Orange",
+//             score:6,
+//             review:"Kinda sour :/"
+//         },
+//         {
+//             name:"Banana",
+//             score:9,
+//             review:"Great Stuff"
+//         }
+//         ], function(err, r) {
+//         assert.equal(null, err);
+//         assert.equal(3, r.insertedCount);
+//         console.log("Inserted 3 documents into the collection");
+//         client.close();
+//       });
+// };
 
-const FindMany = function(collection){
-    collection.find().toArray(function(err, fruits){
-        assert.equal(null, err);
-        console.log("Found the following records:");
-        console.log(fruits);
-        client.close();
-      });
-};
+// const FindMany = function(collection){
+//     collection.find().toArray(function(err, fruits){
+//         assert.equal(null, err);
+//         console.log("Found the following records:");
+//         console.log(fruits);
+//         client.close();
+//       });
+// };
