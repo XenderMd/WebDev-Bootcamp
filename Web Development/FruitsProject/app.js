@@ -7,8 +7,15 @@ mongoose.connect(url, {useUnifiedTopology:true, useNewUrlParser: true});
 
 //Specify the DB Schema
 const fruitSchema = new mongoose.Schema({
-    name:String,
-    rating:Number,
+    name:{
+        type:String,
+        required:[true, 'the fruit name is not defined !']
+    },
+    rating:{
+        type:Number,
+        min: 1,
+        max: 10
+    },
     review:String
 });
 
@@ -21,37 +28,27 @@ const personSchema = new mongoose.Schema({
 const Fruit=mongoose.model("Fruit", fruitSchema);
 const Person = mongoose.model("Person", personSchema);
 
-const person=new Person({
-    name: "John",
-    age:37
+
+// Insert Fruits
+const fruit = new Fruit({
+    //name:"Peach",
+    rating:34,
+    review:"The best fruit there is !"
 });
 
-const kiwi=new Fruit({
-    name: "kiwi",
-    rating:7,
-    review:"Best fruit"
-});
+fruit.save();
 
 
-const banana=new Fruit({
-    name: "banana",
-    rating:7,
-    review:"So nutricious ! :) "
-});
-
-const orange=new Fruit({
-    name: "orange",
-    rating:7,
-    review:"Weird texture"
-});
-
-Fruit.insertMany([kiwi, orange, banana], function(err){
-    if(err){
+Fruit.find(function(err, fruits){
+    if (err){
         console.log(err);
     }
     else{
-        console.log("Succesfully saved all of the fruits to fruitsDB");
+        fruits.forEach((item, index)=>{
+            console.log(item.name);
+        });
     }
+    mongoose.connection.close();
 })
 
 
