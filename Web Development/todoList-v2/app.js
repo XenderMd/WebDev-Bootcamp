@@ -19,33 +19,32 @@ const itemsSchema = {
 
 const Item = mongoose.model("Item", itemsSchema);
 
-const todo0= new Item({
-  name:"Do Javascript"
-});
-
-const todo1= new Item({
-  name:"Clean House"
-});
-
-const todo2= new Item({
-  name:"Cook"
-});
-
-const defaultItems = [todo0, todo1, todo2];
-
-Item.insertMany(defaultItems, (err)=>{
-    if (err){
-      console.log(err);
-    }
-    mongoose.connection.close();
-});
-
-
 app.get("/", function(req, res) {
 
-const day = date.getDate();
+  const day = date.getDate();
 
-  res.render("list", {listTitle: day, newListItems: items});
+  Item.find((err, results)=>{
+    if (err){
+      console.log(err);
+      res.send("An error occured on the server! Please try again");
+    }
+    else{
+      if(results.length===0)
+      {
+        Item.insertMany(GenerateDefaultItems(), (err)=>{
+          if(err) {
+            console.log(err);
+          }
+          else{
+            res.redirect("/");
+          }
+        })
+      }
+      else{
+        res.render("list", {listTitle: day, newListItems: results});
+      }
+    }
+  });
 
 });
 
@@ -73,3 +72,19 @@ app.get("/about", function(req, res){
 app.listen(3000, function() {
   console.log("Server started on port 3000");
 });
+
+function GenerateDefaultItems() {
+  const todo0 = new Item({
+    name: "Do Javascript"
+  });
+
+  const todo1 = new Item({
+    name: "Clean House"
+  });
+
+  const todo2 = new Item({
+    name: "Cook"
+  });
+
+  return [todo0, todo1, todo2];
+}
