@@ -1,26 +1,62 @@
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-
+const mongoose = require("mongoose");
 // Connection URL
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb://localhost:27017/fruitsDB';
 
-// Database Name
-const dbName = 'fruitsDB';
+//Connect to the MongoDB
+mongoose.connect(url, {useUnifiedTopology:true, useNewUrlParser: true});
 
-// Create a new MongoClient
-const client = new MongoClient(url, {useUnifiedTopology: true });
-
-// Use connect method to connect to the Server
-client.connect(function(err, client) {
-    assert.equal(null, err);
-    console.log("Connected correctly to server");
-  
-    const db = client.db(dbName);
-    const collection=db.collection('fruits');
-
-    //InsertDocuments(collection);
-    FindMany(collection);
+//Specify the DB Schema
+const fruitSchema = new mongoose.Schema({
+    name:String,
+    rating:Number,
+    review:String
 });
+
+const personSchema = new mongoose.Schema({
+    name: String,
+    age:Number
+});
+
+//Specify a model or collection I guess
+const Fruit=mongoose.model("Fruit", fruitSchema);
+const Person = mongoose.model("Person", personSchema);
+
+const person=new Person({
+    name: "John",
+    age:37
+});
+
+const kiwi=new Fruit({
+    name: "kiwi",
+    rating:7,
+    review:"Best fruit"
+});
+
+
+const banana=new Fruit({
+    name: "banana",
+    rating:7,
+    review:"So nutricious ! :) "
+});
+
+const orange=new Fruit({
+    name: "orange",
+    rating:7,
+    review:"Weird texture"
+});
+
+Fruit.insertMany([kiwi, orange, banana], function(err){
+    if(err){
+        console.log(err);
+    }
+    else{
+        console.log("Succesfully saved all of the fruits to fruitsDB");
+    }
+})
+
+
+//fruit.save();
+//person.save();
 
 
 const InsertDocuments = function (collection){
