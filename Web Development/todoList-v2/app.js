@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js");
 const mongoose = require('mongoose');
 const dburl=("mongodb://localhost:27017/todolistDB");
+const _=require("lodash");
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -40,21 +41,24 @@ app.get("/", function(req, res) {
 });
 
 app.get("/:list", (req, res) => {
+
+  customListName=_.capitalize(req.params.list);
+
   if (req.params.list !== "about") {
-    List.findOne({ name: req.params.list }, (err, result) => {
+    List.findOne({ name: customListName}, (err, result) => {
       if (err) {
         console.log(err);
         res.send("There was an error on the server ! Please try again");
       } else {
         if (result) {
           res.render("list", {
-            listTitle: req.params.list,
+            listTitle: customListName,
             newListItems: result.items
           });
         } else {
           List.create(
             {
-              name: req.params.list,
+              name: customListName,
               items: GenerateDefaultItems()
             },
             err => {
@@ -62,7 +66,7 @@ app.get("/:list", (req, res) => {
                 console.log(err);
                 res.redirect("/");
               } else {
-                res.redirect("/" + req.params.list);
+                res.redirect("/" + customListName);
               }
             }
           );
@@ -106,13 +110,28 @@ app.post("/", function(req, res){
 });
 
 app.post("/delete", function(req, res){
+  
   const checkedItemId=req.body.checkBox;
-  Item.findByIdAndDelete(checkedItemId, (err)=>{
-    if(err){
-      console.log(err);
-    }
-  });
-  res.redirect("/");
+  const listName = req.body.listName;
+
+  if(listName==="Today")
+  {
+    Item.findByIdAndDelete(checkedItemId, (err)=>{
+      if(err){
+        console.log(err);
+      }
+    });
+    res.redirect("/"); 
+  }else{
+    List.findOneAndUpdate({name:listName}, {$pull:{items:{_id:checkedItemId}}}, (err, foundList)=>{
+      if(err)
+      {
+        console.log(err);
+      }else{
+        res.redirect("/"+listName);
+      }
+    })
+  }
 });
 
 app.listen(3000, function() {
