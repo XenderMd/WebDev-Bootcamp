@@ -13,11 +13,18 @@ app.use(express.static("public"));
 
 
 mongoose.connect(dburl, {useNewUrlParser:true, useUnifiedTopology: true});
+
 const itemsSchema = {
   name: String
 };
 
+const listSchema={
+  name: String,
+  items:[itemsSchema]
+}
+
 const Item = mongoose.model("Item", itemsSchema);
+const List = mongoose.model("List", listSchema);
 
 app.get("/", function(req, res) {
 
@@ -45,8 +52,44 @@ app.get("/", function(req, res) {
       }
     }
   });
-
 });
+
+app.get("/:list", (req, res) => {
+  if (req.params.list !== "about") {
+    List.findOne({ name: req.params.list }, (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("There was an error on the server ! Please try again");
+      } else {
+        if (result) {
+          res.render("list", {
+            listTitle: req.params.list,
+            newListItems: result.items
+          });
+        } else {
+          List.create(
+            {
+              name: req.params.list,
+              items: GenerateDefaultItems()
+            },
+            err => {
+              if (err) {
+                console.log(err);
+                res.redirect("/");
+              } else {
+                res.redirect("/" + req.params.list);
+              }
+            }
+          );
+        }
+      }
+    });
+  }
+  else {
+    res.render("about");
+  }
+});
+
 
 app.post("/", function(req, res){
 
@@ -72,14 +115,6 @@ app.post("/delete", function(req, res){
     }
   });
   res.redirect("/");
-});
-
-app.get("/work", function(req,res){
-  res.render("list", {listTitle: "Work List", newListItems: workItems});
-});
-
-app.get("/about", function(req, res){
-  res.render("about");
 });
 
 app.listen(3000, function() {
