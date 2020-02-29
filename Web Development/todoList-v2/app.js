@@ -28,28 +28,13 @@ const List = mongoose.model("List", listSchema);
 
 app.get("/", function(req, res) {
 
-  const day = date.getDate();
-
   Item.find((err, results)=>{
     if (err){
       console.log(err);
       res.send("An error occured on the server! Please try again");
     }
     else{
-      if(results.length===0)
-      {
-        Item.insertMany(GenerateDefaultItems(), (err)=>{
-          if(err) {
-            console.log(err);
-          }
-          else{
-            res.redirect("/");
-          }
-        })
-      }
-      else{
-        res.render("list", {listTitle: day, newListItems: results});
-      }
+      res.render("list", {listTitle:"Today", newListItems: results});
     }
   });
 });
@@ -93,17 +78,30 @@ app.get("/:list", (req, res) => {
 
 app.post("/", function(req, res){
 
-  const itemName = req.body.newItem;
+  const itemName =req.body.newItem;
+  const listName=req.body.list;
+
   const todo = new Item({
     name:itemName
   });
 
-  if (req.body.list === "Work") {
-    workItems.push(item);
-    res.redirect("/work");
-  } else {
+  if(listName==="Today"){
     todo.save();
     res.redirect("/");
+  }
+  else{
+    List.findOne({name:listName},(err, foundList)=>{
+      if(err){
+        console.log(err);
+        res.send("There was a server error ! Please try again");
+      }else{
+        if(foundList){
+          foundList.items.push(todo);
+          foundList.save();
+          res.redirect("/"+listName);
+        }
+      }
+    });
   }
 });
 
