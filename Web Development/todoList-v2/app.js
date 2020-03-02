@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js");
 const mongoose = require('mongoose');
-const dburl=("mongodb://localhost:27017/todolistDB");
+const dburl=("mongodb+srv://admin-denis:test123@myapp-q4c3t.mongodb.net/todolistDB");
 const _=require("lodash");
 
 const app = express();
