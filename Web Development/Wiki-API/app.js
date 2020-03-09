@@ -42,6 +42,18 @@ app.route('/articles/:articleTitle')
         else {res.send(err);}
     });
 })
+.put((req, res)=>{
+    Article.update(
+        {title:req.params.articleTitle},
+        {title: req.body.title, content:req.body.content},
+        {overwrite:true},
+        (err)=>{
+           if(!err){
+               res.send('Succesfully updated article.')
+           } 
+        }
+    )
+});
 
 
 app.route('/articles')
@@ -56,9 +68,6 @@ app.route('/articles')
     })
 })
 .post(function(req, res){
-    console.log(req.body.title);
-    console.log(req.body.content);
-
     const newArticle= new Article({
         title: req.body.title,
         content:req.body.content
