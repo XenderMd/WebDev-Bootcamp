@@ -53,6 +53,19 @@ app.route('/articles/:articleTitle')
            } 
         }
     )
+})
+.patch((req, res)=>{
+    console.log(req.body);
+    Article.update(
+        {title:req.params.articleTitle},
+        {$set:req.body},
+        (err)=>{
+            if(!err){
+                res.send("Successfully updated the article");
+            }else{
+                res.send(err);
+            }
+        })
 });
 
 
