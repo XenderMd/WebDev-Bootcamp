@@ -28,6 +28,22 @@ const Article = mongoose.model("Article", articleSchema);
 //     }
 // });
 
+
+app.route('/articles/:articleTitle')
+.get((req, res)=>{
+    Article.findOne({title:req.params.articleTitle}, (err, foundArticle)=>{
+        if(!err){
+            if(foundArticle){
+                res.send(foundArticle);
+            }else{
+                res.send("No article matching that title was found.");
+            }
+        }
+        else {res.send(err);}
+    });
+})
+
+
 app.route('/articles')
 .get((req, res)=>{
     Article.find((err, foundArticles)=>{
