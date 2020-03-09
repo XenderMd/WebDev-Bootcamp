@@ -55,7 +55,6 @@ app.route('/articles/:articleTitle')
     )
 })
 .patch((req, res)=>{
-    console.log(req.body);
     Article.update(
         {title:req.params.articleTitle},
         {$set:req.body},
@@ -66,6 +65,19 @@ app.route('/articles/:articleTitle')
                 res.send(err);
             }
         })
+})
+.delete((req, res)=>{
+    Article.deleteOne(
+        
+        {title:req.params.articleTitle},
+        
+        (err)=>{
+            if(!err){
+                res.send("Successfully deleted article");
+            } else{
+                res.send(err);
+            }
+        });
 });
 
 
