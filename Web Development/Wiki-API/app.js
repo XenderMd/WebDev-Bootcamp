@@ -28,9 +28,8 @@ const Article = mongoose.model("Article", articleSchema);
 //     }
 // });
 
-
-
-app.get("/articles",(req, res)=>{
+app.route('/articles')
+.get((req, res)=>{
     Article.find((err, foundArticles)=>{
         if(!err){
             res.send(foundArticles);
@@ -39,10 +38,8 @@ app.get("/articles",(req, res)=>{
             next(err);
         }
     })
-});
-
-
-app.post("/articles", function(req, res){
+})
+.post(function(req, res){
     console.log(req.body.title);
     console.log(req.body.content);
 
@@ -59,9 +56,8 @@ app.post("/articles", function(req, res){
             res.send(err);
         }
     });
-});
-
-app.delete("/articles", function(req, res){
+})
+.delete(function(req, res){
     Article.deleteMany(function(err){
         if(!err){
             res.send('Successfully deleted all articles !');
@@ -69,7 +65,9 @@ app.delete("/articles", function(req, res){
             res.send(err);
         }
     })
-})
+});
+
+
 
 app.listen(3000, ()=>{
     console.log("Server has started on port 3000");
