@@ -21,16 +21,25 @@ const articleSchema=new Schema ({
 });
 const Article = mongoose.model("Article", articleSchema);
 
-Article.findOne({title:'API'}, (err, result)=>{
-    if(err){console.log(err);}
-    else{
-        console.log(result.content);
-    }
+// Article.findOne({title:'API'}, (err, result)=>{
+//     if(err){console.log(err);}
+//     else{
+//         console.log(result.content);
+//     }
+// });
+
+
+
+app.get("/articles",(req, res)=>{
+    Article.find((err, foundArticles)=>{
+        if(!err){
+            res.send(foundArticles);
+        }
+        else{
+            next(err);
+        }
+    })
 });
-
-
-
-
 
 app.listen(3000, ()=>{
     console.log("Server has started on port 3000");
