@@ -105,3 +105,5 @@ dist
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
+Web Development/todoList-v2/data/
+Web Development/Blog with Database/data/
