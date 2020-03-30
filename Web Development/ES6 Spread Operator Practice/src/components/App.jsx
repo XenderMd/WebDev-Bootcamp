@@ -11,6 +11,11 @@ function App() {
     setInputText("");
   }
 
+  function deleteItem(id){
+    setItems((prevState)=>{return(prevState.filter((item, index)=>{
+      return index!==id}))})
+  }
+
   function handleKey(event){
     if(event.charCode===13){
       addItem();
@@ -32,7 +37,7 @@ function App() {
         <button onClick={addItem}>
           <span>Add</span>
         </button>
-        <List items={items} />
+        <List items={items} onDelete={deleteItem} />
       </div>
 
     </div>
